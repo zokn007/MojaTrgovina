@@ -17,3 +17,8 @@ Za namestitev na iPhone:
 1. Datoteke naloži na spletni strežnik.
 2. Odpri stran v Safariju.
 3. Deli > Dodaj na začetni zaslon.
+
+
+VERZIJA 1.1
+- Popravljena JavaScript napaka, zaradi katere gumbi niso delovali.
+- Izboljšana združljivost s Safari/iPhone.

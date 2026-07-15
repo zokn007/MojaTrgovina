@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MojaTrgovina">
-<title>MojaTrgovina by Davor Gričnik – Verzija 1.0</title>
+<title>MojaTrgovina by Davor Gričnik – Verzija 1.1</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.svg">
 <style>
@@ -49,7 +49,7 @@ dialog{width:min(650px,calc(100% - 22px));padding:0;border:1px solid #30445f;bor
 <body>
 <div class="app">
 <header class="top">
- <div class="brand"><div class="logo">🛒</div><div><h1>MojaTrgovina by Davor Gričnik</h1><div class="version">Verzija 1.0</div></div></div>
+ <div class="brand"><div class="logo">🛒</div><div><h1>MojaTrgovina by Davor Gričnik</h1><div class="version">Verzija 1.1</div></div></div>
  <button class="btn small" onclick="openModal('item')">+ Artikel</button>
 </header>
 
@@ -114,7 +114,7 @@ dialog{width:min(650px,calc(100% - 22px));padding:0;border:1px solid #30445f;bor
  <div class="section-title"><h2>Podatki in nastavitve</h2></div>
  <div class="card about">
   <b>MojaTrgovina by Davor Gričnik</b><br>
-  Verzija 1.0<br>
+  Verzija 1.1<br>
   © 2026 Davor Gričnik
   <hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
   Podatki so shranjeni lokalno v tej napravi. Redno naredi varnostno kopijo.
@@ -125,7 +125,7 @@ dialog{width:min(650px,calc(100% - 22px));padding:0;border:1px solid #30445f;bor
    <button class="btn danger" onclick="resetData()">Izbriši vse podatke</button>
   </div>
  </div>
- <div class="footer">MojaTrgovina by Davor Gričnik · Verzija 1.0</div>
+ <div class="footer">MojaTrgovina by Davor Gričnik · Verzija 1.1</div>
 </section>
 </main>
 </div>
@@ -145,7 +145,7 @@ dialog{width:min(650px,calc(100% - 22px));padding:0;border:1px solid #30445f;bor
 </dialog>
 
 <script>
-const VERSION='1.0', KEY='mojaTrgovinaV1';
+const VERSION='1.1', KEY='mojaTrgovinaV1';
 const STORES=['Lidl','Hofer','Spar','DM','Ostalo'];
 const CATS=['Sadje in zelenjava','Mlečni izdelki','Meso in ribe','Pekarna','Pijača','Sladkarije','Čistila','Kozmetika','Otroci','Gospodinjstvo','Drugo'];
 const EMOJI={'Sadje in zelenjava':'🍎','Mlečni izdelki':'🥛','Meso in ribe':'🥩','Pekarna':'🥖','Pijača':'🥤','Sladkarije':'🍫','Čistila':'🧴','Kozmetika':'🧼','Otroci':'🍼','Gospodinjstvo':'🏠','Drugo':'📦'};
@@ -161,9 +161,10 @@ const defaultProducts=[
  {id:'p9',name:'Mineralna voda',category:'Pijača',store:'Ostalo',price:.79,emoji:'💧'},
  {id:'p10',name:'Čokolada',category:'Sladkarije',store:'Lidl',price:1.29,emoji:'🍫'}
 ];
-const empty={products:defaultProducts,items:[],purchases:[]};
+const initialData={products:defaultProducts,items:[],purchases:[]};
+const cloneData=obj=>JSON.parse(JSON.stringify(obj));
 let data=load(), activeStore='Vse';
-function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');return x?{...empty,...x}:structuredClone(empty)}catch{return structuredClone(empty)}}
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');return x?Object.assign(cloneData(initialData),x):cloneData(initialData)}catch(e){return cloneData(initialData)}}
 function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const money=n=>(Number(n)||0).toLocaleString('sl-SI',{style:'currency',currency:'EUR'});
@@ -204,11 +205,11 @@ function openModal(type,pref={}){
    area('Opomba','note','')
   ,'purchase')
  }
- modalTitle.textContent=title;dynamicForm.innerHTML=html;dynamicForm.onsubmit=submitForm;modal.showModal()
+ modalTitle.textContent=title;dynamicForm.innerHTML=html;dynamicForm.onsubmit=submitForm;if(typeof modal.showModal==='function'){modal.showModal()}else{modal.setAttribute('open','open')}
 }
-function closeModal(){modal.close()}
+function closeModal(){if(typeof modal.close==='function'){modal.close()}else{modal.removeAttribute('open')}}
 function submitForm(e){
- e.preventDefault();let f=Object.fromEntries(new FormData(e.target)),t=f._type;delete f._type;
+ e.preventDefault();let f={};new FormData(e.target).forEach((v,k)=>f[k]=v);let t=f._type;delete f._type;
  if(t==='item'){f.id=uid();f.bought=false;data.items.push(f)}
  if(t==='product'){f.id=uid();data.products.push(f)}
  if(t==='purchase'){
@@ -266,10 +267,10 @@ function renderTopProducts(){let m={};data.purchases.forEach(p=>(p.items||[]).fo
 function storeIcon(s){return ({Lidl:'🟡',Hofer:'🔵',Spar:'🟢',DM:'🔷',Ostalo:'🏪'})[s]||'🏪'}
 function empty(t){return `<div class="empty">${t}</div>`}
 function exportJSON(){download('moja-trgovina-varnostna-kopija.json',JSON.stringify(data,null,2),'application/json')}
-function exportCSV(){let rows=[['Trgovina','Datum','Znesek','Prihranek','Število artiklov']];data.purchases.forEach(p=>rows.push([p.store,p.date,p.total,p.saved,(p.items||[]).length]));let csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n');download('moja-trgovina-nakupi.csv',csv,'text/csv')}
+function exportCSV(){let rows=[['Trgovina','Datum','Znesek','Prihranek','Število artiklov']];data.purchases.forEach(p=>rows.push([p.store,p.date,p.total,p.saved,(p.items||[]).length]));let csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v==null?'':v).replace(/"/g,'""')}"`).join(';')).join('\n');download('moja-trgovina-nakupi.csv',csv,'text/csv')}
 function download(n,c,t){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click();URL.revokeObjectURL(a.href)}
 function importJSON(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save();alert('Podatki so uvoženi.')}catch{alert('Datoteka ni veljavna.')}};r.readAsText(f)}
-function resetData(){if(confirm('Res izbrišem vse podatke?')){data=structuredClone(empty);save()}}
+function resetData(){if(confirm('Res izbrišem vse podatke?')){data=cloneData(initialData);save()}}
 renderAll();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
