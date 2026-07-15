@@ -1,1 +1,15 @@
-{"name":"MojaTrgovina by Davor Gričnik","short_name":"MojaTrgovina","start_url":"./index.html","display":"standalone","background_color":"#07111f","theme_color":"#07111f","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]}
+{
+  "name": "MojaTrgovina by Davor Gričnik 1.4",
+  "short_name": "MojaTrgovina",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
