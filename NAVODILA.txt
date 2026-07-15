@@ -1,0 +1,19 @@
+MojaTrgovina by Davor Gričnik – Verzija 1.0
+
+Funkcije:
+- Nakupovalni seznam po trgovinah Lidl, Hofer, Spar, DM in Ostalo
+- Katalog artiklov s slikami/emoji
+- Količine, enote, običajne in akcijske cene
+- Označevanje kupljenega
+- Zaključevanje nakupov in zgodovina
+- Analiza mesečne porabe
+- Poraba po trgovinah in kategorijah
+- Najpogosteje kupljeni artikli
+- Evidenca prihrankov
+- Izvoz CSV in JSON ter uvoz varnostne kopije
+- PWA namestitev na začetni zaslon
+
+Za namestitev na iPhone:
+1. Datoteke naloži na spletni strežnik.
+2. Odpri stran v Safariju.
+3. Deli > Dodaj na začetni zaslon.

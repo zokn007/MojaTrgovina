@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MojaTrgovina">
+<title>MojaTrgovina by Davor Gričnik – Verzija 1.0</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{
+ --bg:#07111f;--panel:#101d2e;--panel2:#16253a;--text:#eef5ff;--muted:#9fb0c5;
+ --line:#26384f;--accent:#38bdf8;--green:#22c55e;--orange:#f59e0b;--red:#ef4444;
+ --shadow:0 14px 38px rgba(0,0,0,.25)
+}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(180deg,#06101d,#0b1625 55%,#07111f);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit} button{cursor:pointer}.app{max-width:1100px;margin:auto;padding:calc(16px + env(safe-area-inset-top)) 12px calc(94px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,#22c55e,#0ea5e9);box-shadow:var(--shadow)}
+h1{font-size:22px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}.version{font-size:11px;color:#c7d5e8;background:#14253a;border:1px solid var(--line);padding:5px 8px;border-radius:99px;display:inline-block;margin-top:5px}
+.hero{border-radius:24px;padding:20px;background:
+linear-gradient(120deg,rgba(5,15,29,.9),rgba(5,15,29,.35)),
+radial-gradient(circle at 80% 20%,rgba(34,197,94,.35),transparent 35%),
+linear-gradient(135deg,#12452d,#12304d);border:1px solid #28516b;box-shadow:var(--shadow);margin-bottom:14px}
+.hero-title{font-size:29px;font-weight:900}.hero-copy{color:#c9d8ea;margin-top:6px}.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.mini{background:rgba(7,17,31,.58);border:1px solid rgba(255,255,255,.1);border-radius:15px;padding:12px}.mini b{display:block;font-size:19px}.mini span{font-size:11px;color:#b6c7da}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.card{background:rgba(16,29,46,.97);border:1px solid var(--line);border-radius:19px;padding:15px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.stat .ico{font-size:23px}.stat .lab{font-size:11px;color:var(--muted);margin-top:8px}.stat .val{font-size:20px;font-weight:900;margin-top:3px}
+.section{display:none}.section.active{display:block}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 2px 10px}.section-title h2{font-size:19px;margin:0}
+.btn{border:0;border-radius:13px;padding:10px 13px;background:#20334c;color:white;font-weight:750}.btn.primary{background:linear-gradient(135deg,#22c55e,#0ea5e9)}.btn.danger{background:#8f1d25}.btn.small{padding:7px 9px;font-size:12px}
+.store-tabs{display:flex;gap:8px;overflow:auto;padding:2px 0 10px;scrollbar-width:none}.store-tabs::-webkit-scrollbar{display:none}.store-tab{white-space:nowrap;border:1px solid var(--line);background:#13243a;color:#d9e7f5;border-radius:999px;padding:9px 12px}.store-tab.active{background:linear-gradient(135deg,#22c55e,#0ea5e9);border-color:transparent}
+.list{display:grid;gap:9px}.item{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px}.thumb{width:52px;height:52px;border-radius:14px;flex:0 0 auto;display:grid;place-items:center;font-size:29px;background:linear-gradient(145deg,#1d334c,#102137);overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.item-main{flex:1;min-width:0}.item-name{font-weight:850}.item-meta{font-size:12px;color:var(--muted);margin-top:4px}.item-price{font-weight:900;text-align:right}.check{width:24px;height:24px;accent-color:#22c55e}.bought{opacity:.55}.bought .item-name{text-decoration:line-through}
+.badge{display:inline-block;font-size:10px;padding:4px 7px;border-radius:99px;background:#233a53;color:#dcecff;margin-left:5px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.quick button{min-height:89px;background:var(--panel2);border:1px solid var(--line);border-radius:17px;color:#fff;font-weight:750}.quick span{display:block;font-size:26px;margin-bottom:6px}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:12px}.chart-title{font-weight:850;margin-bottom:8px}.chart-sub{font-size:11px;color:var(--muted);margin-bottom:10px}.chart{height:220px;position:relative}.chart svg{width:100%;height:100%;overflow:visible}.chart-empty{height:180px;display:grid;place-items:center;color:var(--muted);text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.legend span{font-size:11px;color:#cbd7e6}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;color:var(--muted)}input,select,textarea{width:100%;border:1px solid #30445f;background:#0c1928;color:#fff;border-radius:13px;padding:12px;outline:none}textarea{min-height:82px;resize:vertical}
+dialog{width:min(650px,calc(100% - 22px));padding:0;border:1px solid #30445f;border-radius:22px;background:#101d2e;color:white;box-shadow:0 24px 80px rgba(0,0,0,.55)}dialog::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(3px)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 18px 8px}.modal-head h3{margin:0}.modal-body{padding:10px 18px 18px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.close{border:0;background:transparent;color:#cbd5e1;font-size:24px}
+.empty{text-align:center;padding:28px 14px;color:var(--muted);background:var(--panel);border:1px dashed #3a4f68;border-radius:17px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(6,1fr);background:rgba(7,17,31,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:7px max(6px,calc((100vw - 1080px)/2)) calc(7px + env(safe-area-inset-bottom))}
+.nav button{border:0;background:transparent;color:#8ea2bb;padding:6px 1px;font-size:9px}.nav button span{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:#5de4a2}
+.searchbar{display:flex;gap:8px;margin-bottom:10px}.searchbar input{flex:1}.filter-row{display:flex;gap:8px;overflow:auto;margin-bottom:10px}
+.about{line-height:1.6}.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(max-width:760px){.grid,.hero-stats{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero-title{font-size:24px}.app{padding-left:9px;padding-right:9px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">🛒</div><div><h1>MojaTrgovina by Davor Gričnik</h1><div class="version">Verzija 1.0</div></div></div>
+ <button class="btn small" onclick="openModal('item')">+ Artikel</button>
+</header>
+
+<main>
+<section id="home" class="section active">
+ <div class="hero">
+  <div class="hero-title">Pametni nakupovalni pomočnik</div>
+  <div class="hero-copy">Seznami po trgovinah, slike artiklov, cene, poraba in analiza nakupov.</div>
+  <div class="hero-stats">
+   <div class="mini"><b id="heroOpen">0</b><span>za kupiti</span></div>
+   <div class="mini"><b id="heroStores">0</b><span>aktivnih trgovin</span></div>
+   <div class="mini"><b id="heroMonth">0 €</b><span>poraba ta mesec</span></div>
+   <div class="mini"><b id="heroSaved">0 €</b><span>prihranek</span></div>
+  </div>
+ </div>
+ <div class="section-title"><h2>Hitri vnosi</h2></div>
+ <div class="quick">
+  <button onclick="openModal('item')"><span>➕</span>Dodaj artikel</button>
+  <button onclick="openModal('purchase')"><span>🧾</span>Zaključi nakup</button>
+  <button onclick="showSection('catalog')"><span>🖼️</span>Katalog</button>
+  <button onclick="showSection('analytics')"><span>📊</span>Analitika</button>
+ </div>
+ <div class="section-title"><h2>Pregled po trgovinah</h2></div>
+ <div id="homeStoreCards" class="grid"></div>
+ <div class="section-title"><h2>Naslednji nakupi</h2></div>
+ <div id="homeItems" class="list"></div>
+</section>
+
+<section id="shopping" class="section">
+ <div class="section-title"><h2>Nakupovalni seznam</h2><button class="btn primary" onclick="openModal('item')">+ Dodaj</button></div>
+ <div id="storeTabs" class="store-tabs"></div>
+ <div class="searchbar"><input id="searchInput" placeholder="Išči artikel..." oninput="renderShopping()"><button class="btn" onclick="clearBought()">Počisti kupljeno</button></div>
+ <div id="shoppingList" class="list"></div>
+</section>
+
+<section id="catalog" class="section">
+ <div class="section-title"><h2>Katalog artiklov</h2><button class="btn primary" onclick="openModal('product')">+ Nov artikel</button></div>
+ <div class="searchbar"><input id="catalogSearch" placeholder="Išči v katalogu..." oninput="renderCatalog()"></div>
+ <div id="catalogList" class="list"></div>
+</section>
+
+<section id="history" class="section">
+ <div class="section-title"><h2>Zgodovina nakupov</h2><button class="btn primary" onclick="openModal('purchase')">+ Zaključi nakup</button></div>
+ <div id="historyList" class="list"></div>
+</section>
+
+<section id="analytics" class="section">
+ <div class="section-title"><h2>Grafi in analize</h2></div>
+ <div class="grid" style="margin-bottom:12px">
+  <div class="card stat"><div class="ico">💶</div><div class="lab">Skupna poraba</div><div class="val" id="totalSpend">0 €</div></div>
+  <div class="card stat"><div class="ico">📅</div><div class="lab">Ta mesec</div><div class="val" id="monthSpend">0 €</div></div>
+  <div class="card stat"><div class="ico">🧺</div><div class="lab">Povprečen nakup</div><div class="val" id="avgBasket">0 €</div></div>
+  <div class="card stat"><div class="ico">🏷️</div><div class="lab">Skupni prihranek</div><div class="val" id="totalSaved">0 €</div></div>
+ </div>
+ <div class="chart-card"><div class="chart-title">Mesečna poraba</div><div class="chart-sub">Poraba po mesecih v tekočem letu</div><div id="monthlyChart" class="chart"></div></div>
+ <div class="chart-card"><div class="chart-title">Poraba po trgovinah</div><div class="chart-sub">Primerjava skupnih stroškov med trgovinami</div><div id="storeChart" class="chart"></div></div>
+ <div class="chart-card"><div class="chart-title">Poraba po kategorijah</div><div class="chart-sub">Katere skupine izdelkov predstavljajo največji del stroškov</div><div id="categoryChart" class="chart"></div></div>
+ <div class="chart-card"><div class="chart-title">Najpogosteje kupljeni artikli</div><div class="chart-sub">Top artikli glede na število nakupov</div><div id="topProductsChart" class="chart"></div></div>
+</section>
+
+<section id="more" class="section">
+ <div class="section-title"><h2>Podatki in nastavitve</h2></div>
+ <div class="card about">
+  <b>MojaTrgovina by Davor Gričnik</b><br>
+  Verzija 1.0<br>
+  © 2026 Davor Gričnik
+  <hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
+  Podatki so shranjeni lokalno v tej napravi. Redno naredi varnostno kopijo.
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+   <button class="btn" onclick="exportJSON()">Varnostna kopija JSON</button>
+   <button class="btn" onclick="exportCSV()">Izvoz CSV</button>
+   <label class="btn">Uvozi JSON<input type="file" hidden accept=".json" onchange="importJSON(event)"></label>
+   <button class="btn danger" onclick="resetData()">Izbriši vse podatke</button>
+  </div>
+ </div>
+ <div class="footer">MojaTrgovina by Davor Gričnik · Verzija 1.0</div>
+</section>
+</main>
+</div>
+
+<nav class="nav">
+ <button class="active" data-section="home"><span>🏠</span>Domov</button>
+ <button data-section="shopping"><span>🛒</span>Seznam</button>
+ <button data-section="catalog"><span>🖼️</span>Artikli</button>
+ <button data-section="history"><span>🧾</span>Nakupi</button>
+ <button data-section="analytics"><span>📊</span>Analiza</button>
+ <button data-section="more"><span>•••</span>Več</button>
+</nav>
+
+<dialog id="modal">
+ <div class="modal-head"><h3 id="modalTitle"></h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="modal-body"><form id="dynamicForm"></form></div>
+</dialog>
+
+<script>
+const VERSION='1.0', KEY='mojaTrgovinaV1';
+const STORES=['Lidl','Hofer','Spar','DM','Ostalo'];
+const CATS=['Sadje in zelenjava','Mlečni izdelki','Meso in ribe','Pekarna','Pijača','Sladkarije','Čistila','Kozmetika','Otroci','Gospodinjstvo','Drugo'];
+const EMOJI={'Sadje in zelenjava':'🍎','Mlečni izdelki':'🥛','Meso in ribe':'🥩','Pekarna':'🥖','Pijača':'🥤','Sladkarije':'🍫','Čistila':'🧴','Kozmetika':'🧼','Otroci':'🍼','Gospodinjstvo':'🏠','Drugo':'📦'};
+const defaultProducts=[
+ {id:'p1',name:'Mleko 1 l',category:'Mlečni izdelki',store:'Lidl',price:1.19,emoji:'🥛'},
+ {id:'p2',name:'Kruh',category:'Pekarna',store:'Hofer',price:1.69,emoji:'🥖'},
+ {id:'p3',name:'Banane',category:'Sadje in zelenjava',store:'Spar',price:1.49,emoji:'🍌'},
+ {id:'p4',name:'Jabolka',category:'Sadje in zelenjava',store:'Lidl',price:1.79,emoji:'🍎'},
+ {id:'p5',name:'Jogurt',category:'Mlečni izdelki',store:'Hofer',price:.59,emoji:'🥣'},
+ {id:'p6',name:'Piščančje prsi',category:'Meso in ribe',store:'Spar',price:6.99,emoji:'🍗'},
+ {id:'p7',name:'Pralni prašek',category:'Čistila',store:'DM',price:8.99,emoji:'🧺'},
+ {id:'p8',name:'Zobna pasta',category:'Kozmetika',store:'DM',price:2.49,emoji:'🪥'},
+ {id:'p9',name:'Mineralna voda',category:'Pijača',store:'Ostalo',price:.79,emoji:'💧'},
+ {id:'p10',name:'Čokolada',category:'Sladkarije',store:'Lidl',price:1.29,emoji:'🍫'}
+];
+const empty={products:defaultProducts,items:[],purchases:[]};
+let data=load(), activeStore='Vse';
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');return x?{...empty,...x}:structuredClone(empty)}catch{return structuredClone(empty)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const money=n=>(Number(n)||0).toLocaleString('sl-SI',{style:'currency',currency:'EUR'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtDate=d=>new Date(d+'T12:00:00').toLocaleDateString('sl-SI');
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showSection(b.dataset.section));
+function showSection(id){document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.section===id));document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='analytics')renderCharts()}
+const field=(l,n,t='text',v='',extra='',full=false)=>`<div class="field ${full?'full':''}"><label>${l}</label><input name="${n}" type="${t}" value="${esc(v)}" ${extra}></div>`;
+const select=(l,n,opts,v='',full=false)=>`<div class="field ${full?'full':''}"><label>${l}</label><select name="${n}">${opts.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select></div>`;
+const area=(l,n,v='')=>`<div class="field full"><label>${l}</label><textarea name="${n}">${esc(v)}</textarea></div>`;
+const wrap=(x,t)=>`<div class="form-grid">${x}</div><input type="hidden" name="_type" value="${t}"><div class="modal-actions"><button type="button" class="btn" onclick="closeModal()">Prekliči</button><button class="btn primary">Shrani</button></div>`;
+function openModal(type,pref={}){
+ let title='',html='';
+ if(type==='item'){title='Dodaj na nakupovalni seznam';html=wrap(
+  field('Artikel','name','text',pref.name||'','required')+
+  select('Trgovina','store',STORES,pref.store||'Lidl')+
+  select('Kategorija','category',CATS,pref.category||'Drugo')+
+  field('Količina','qty','number',pref.qty||1,'min="0.01" step="0.01" required')+
+  field('Enota','unit','text',pref.unit||'kos')+
+  field('Predvidena cena (€)','price','number',pref.price||'','step="0.01" min="0"')+
+  field('Akcijska cena (€)','salePrice','number','','step="0.01" min="0"')+
+  field('Emoji/slika','emoji','text',pref.emoji||EMOJI[pref.category]||'📦')+
+  area('Opomba','note','')
+ ,'item')}
+ if(type==='product'){title='Nov artikel v katalogu';html=wrap(
+  field('Ime artikla','name','text','','required')+select('Trgovina','store',STORES,'Lidl')+
+  select('Kategorija','category',CATS,'Drugo')+field('Običajna cena (€)','price','number','','step="0.01" min="0"')+
+  field('Emoji/slika','emoji','text','📦')+field('URL slike (neobvezno)','image','url','', '', true)
+ ,'product')}
+ if(type==='purchase'){
+  const unbought=data.items.filter(x=>x.bought);
+  title='Zaključi nakup';
+  html=wrap(
+   select('Trgovina','store',STORES,pref.store||'Lidl')+
+   field('Datum','date','date',new Date().toISOString().slice(0,10),'required')+
+   field('Skupni znesek (€)','total','number','','step="0.01" min="0" required')+
+   field('Prihranek zaradi akcij (€)','saved','number','0','step="0.01" min="0"')+
+   area('Opomba','note','')
+  ,'purchase')
+ }
+ modalTitle.textContent=title;dynamicForm.innerHTML=html;dynamicForm.onsubmit=submitForm;modal.showModal()
+}
+function closeModal(){modal.close()}
+function submitForm(e){
+ e.preventDefault();let f=Object.fromEntries(new FormData(e.target)),t=f._type;delete f._type;
+ if(t==='item'){f.id=uid();f.bought=false;data.items.push(f)}
+ if(t==='product'){f.id=uid();data.products.push(f)}
+ if(t==='purchase'){
+  f.id=uid();
+  const bought=data.items.filter(x=>x.bought && x.store===f.store);
+  f.items=bought.map(x=>({name:x.name,qty:Number(x.qty||1),price:Number(x.salePrice||x.price||0),category:x.category}));
+  data.purchases.push(f);
+  data.items=data.items.filter(x=>!(x.bought&&x.store===f.store));
+ }
+ closeModal();save()
+}
+function renderAll(){renderHome();renderStoreTabs();renderShopping();renderCatalog();renderHistory();renderStats()}
+function renderHome(){
+ const open=data.items.filter(x=>!x.bought),stores=new Set(open.map(x=>x.store));
+ heroOpen.textContent=open.length;heroStores.textContent=stores.size;
+ const now=new Date(),month=data.purchases.filter(p=>{let d=new Date(p.date+'T12:00');return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).reduce((s,p)=>s+Number(p.total||0),0);
+ const saved=data.purchases.reduce((s,p)=>s+Number(p.saved||0),0);
+ heroMonth.textContent=money(month);heroSaved.textContent=money(saved);
+ homeStoreCards.innerHTML=STORES.map(s=>{let n=open.filter(x=>x.store===s).length,total=open.filter(x=>x.store===s).reduce((a,x)=>a+Number(x.salePrice||x.price||0)*Number(x.qty||1),0);return `<div class="card stat"><div class="ico">${storeIcon(s)}</div><div class="lab">${s}</div><div class="val">${n} artiklov</div><div class="sub">${money(total)} predvideno</div></div>`}).join('');
+ homeItems.innerHTML=open.slice(0,6).map(itemHTML).join('')||empty('Nakupovalni seznam je prazen.')
+}
+function renderStoreTabs(){storeTabs.innerHTML=['Vse',...STORES].map(s=>`<button class="store-tab ${s===activeStore?'active':''}" onclick="setStore('${s}')">${storeIcon(s)} ${s}</button>`).join('')}
+function setStore(s){activeStore=s;renderStoreTabs();renderShopping()}
+function renderShopping(){
+ let q=(searchInput?.value||'').toLowerCase();let arr=data.items.filter(x=>(activeStore==='Vse'||x.store===activeStore)&&x.name.toLowerCase().includes(q));
+ shoppingList.innerHTML=arr.sort((a,b)=>Number(a.bought)-Number(b.bought)).map(itemHTML).join('')||empty('V tej trgovini še ni artiklov.')
+}
+function itemHTML(x){let price=Number(x.salePrice||x.price||0)*Number(x.qty||1);return `<div class="item ${x.bought?'bought':''}"><input class="check" type="checkbox" ${x.bought?'checked':''} onchange="toggleBought('${x.id}',this.checked)"><div class="thumb">${x.image?`<img src="${esc(x.image)}">`:esc(x.emoji||EMOJI[x.category]||'📦')}</div><div class="item-main"><div class="item-name">${esc(x.name)} <span class="badge">${esc(x.store)}</span></div><div class="item-meta">${esc(x.qty)} ${esc(x.unit||'kos')} • ${esc(x.category)}${x.note?' • '+esc(x.note):''}</div></div><div class="item-price">${money(price)}<br><button class="btn small danger" onclick="delItem('${x.id}')">Izbriši</button></div></div>`}
+function toggleBought(id,v){let x=data.items.find(i=>i.id===id);if(x)x.bought=v;save()}
+function delItem(id){if(confirm('Izbrišem artikel?')){data.items=data.items.filter(x=>x.id!==id);save()}}
+function clearBought(){if(confirm('Odstranim vse označene artikle?')){data.items=data.items.filter(x=>!x.bought);save()}}
+function renderCatalog(){
+ let q=(catalogSearch?.value||'').toLowerCase();let arr=data.products.filter(x=>x.name.toLowerCase().includes(q));
+ catalogList.innerHTML=arr.map(x=>`<div class="item"><div class="thumb">${x.image?`<img src="${esc(x.image)}">`:esc(x.emoji||EMOJI[x.category]||'📦')}</div><div class="item-main"><div class="item-name">${esc(x.name)} <span class="badge">${esc(x.store)}</span></div><div class="item-meta">${esc(x.category)}</div></div><div class="item-price">${money(x.price)}<br><button class="btn small" onclick='openModal("item",${JSON.stringify(x)})'>Dodaj</button></div></div>`).join('')||empty('Katalog je prazen.')
+}
+function renderHistory(){
+ historyList.innerHTML=[...data.purchases].sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`<div class="item"><div class="thumb">${storeIcon(p.store)}</div><div class="item-main"><div class="item-name">${esc(p.store)}</div><div class="item-meta">${fmtDate(p.date)} • ${(p.items||[]).length} artiklov${p.note?' • '+esc(p.note):''}</div></div><div class="item-price">${money(p.total)}<br><span class="sub">prihranek ${money(p.saved)}</span></div></div>`).join('')||empty('Ni še zaključenih nakupov.')
+}
+function renderStats(){
+ const total=data.purchases.reduce((s,p)=>s+Number(p.total||0),0),saved=data.purchases.reduce((s,p)=>s+Number(p.saved||0),0),now=new Date();
+ const month=data.purchases.filter(p=>{let d=new Date(p.date+'T12:00');return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).reduce((s,p)=>s+Number(p.total||0),0);
+ totalSpend.textContent=money(total);monthSpend.textContent=money(month);avgBasket.textContent=money(data.purchases.length?total/data.purchases.length:0);totalSaved.textContent=money(saved)
+}
+function renderCharts(){renderMonthly();renderStores();renderCategories();renderTopProducts()}
+function barChart(el,labels,values){
+ if(!values.some(v=>v>0)){el.innerHTML='<div class="chart-empty">Za graf še ni dovolj podatkov.</div>';return}
+ const w=760,h=190,p=28,max=Math.max(...values,1),bw=(w-p*2)/values.length*.62,gap=(w-p*2)/values.length;
+ let bars=values.map((v,i)=>{let bh=v/max*(h-45),x=p+i*gap+(gap-bw)/2,y=h-25-bh;return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="5" fill="url(#g)"/><text x="${x+bw/2}" y="${h-8}" text-anchor="middle" fill="#9fb0c5" font-size="10">${esc(labels[i])}</text><text x="${x+bw/2}" y="${Math.max(12,y-5)}" text-anchor="middle" fill="#dff7ff" font-size="10">${v?Math.round(v):''}</text>`}).join('');
+ el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs><line x1="${p}" y1="${h-25}" x2="${w-p}" y2="${h-25}" stroke="#33475e"/>${bars}</svg>`
+}
+function renderMonthly(){let y=new Date().getFullYear(),vals=Array(12).fill(0);data.purchases.forEach(p=>{let d=new Date(p.date+'T12:00');if(d.getFullYear()===y)vals[d.getMonth()]+=Number(p.total||0)});barChart(monthlyChart,['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Avg','Sep','Okt','Nov','Dec'],vals)}
+function renderStores(){let vals=STORES.map(s=>data.purchases.filter(p=>p.store===s).reduce((a,p)=>a+Number(p.total||0),0));barChart(storeChart,STORES,vals)}
+function renderCategories(){let vals=CATS.map(c=>data.purchases.reduce((sum,p)=>sum+(p.items||[]).filter(i=>i.category===c).reduce((a,i)=>a+Number(i.price||0)*Number(i.qty||1),0),0));let pairs=CATS.map((c,i)=>[c,vals[i]]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,7);barChart(categoryChart,pairs.map(x=>x[0].split(' ')[0]),pairs.map(x=>x[1]))}
+function renderTopProducts(){let m={};data.purchases.forEach(p=>(p.items||[]).forEach(i=>m[i.name]=(m[i.name]||0)+Number(i.qty||1)));let p=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,7);barChart(topProductsChart,p.map(x=>x[0].slice(0,9)),p.map(x=>x[1]))}
+function storeIcon(s){return ({Lidl:'🟡',Hofer:'🔵',Spar:'🟢',DM:'🔷',Ostalo:'🏪'})[s]||'🏪'}
+function empty(t){return `<div class="empty">${t}</div>`}
+function exportJSON(){download('moja-trgovina-varnostna-kopija.json',JSON.stringify(data,null,2),'application/json')}
+function exportCSV(){let rows=[['Trgovina','Datum','Znesek','Prihranek','Število artiklov']];data.purchases.forEach(p=>rows.push([p.store,p.date,p.total,p.saved,(p.items||[]).length]));let csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n');download('moja-trgovina-nakupi.csv',csv,'text/csv')}
+function download(n,c,t){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click();URL.revokeObjectURL(a.href)}
+function importJSON(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save();alert('Podatki so uvoženi.')}catch{alert('Datoteka ni veljavna.')}};r.readAsText(f)}
+function resetData(){if(confirm('Res izbrišem vse podatke?')){data=structuredClone(empty);save()}}
+renderAll();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
