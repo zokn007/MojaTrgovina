@@ -1,0 +1,12 @@
+SAMODEJNA FIREBASE SINHRONIZACIJA – MojaTrgovina 1.9
+
+- Vsaka aplikacija uporablja svojo Google prijavo in svoj Firebase projekt.
+- Po prijavi ni treba pritiskati gumba Sinhroniziraj.
+- Vsaka sprememba se samodejno pošlje v Firestore.
+- Brez povezave se spremembe shranijo lokalno in po vrnitvi interneta samodejno prenesejo.
+- Majhna vrstica na vrhu prikazuje: Shranjujem, Sinhronizirano, Brez povezave ali Napaka.
+- Po uspešni sinhronizaciji se vrstica sama skrije.
+- Gumb z oblakom ostane samo za prijavo, odjavo ter izvoz/uvoz varnostne kopije.
+
+Objava posodobitve:
+  firebase deploy --only hosting
