@@ -1,0 +1,16 @@
+SAMODEJNA OBJAVA MojaTrgovina
+
+1. V GitHub repozitoriju morajo biti index.html, firebase.json in mapa .github neposredno v korenu repozitorija.
+   Ne naloži zunanje mape MojaTrgovina; naloži njeno VSEBINO.
+
+2. GitHub skrivnost mora obstajati pod enim od imen:
+   FIREBASE_SERVICE_ACCOUNT
+   ali
+   FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA_35FD1
+
+3. Po nalaganju odpri GitHub > Actions > Samodejna objava MojaTrgovina.
+   Zelen znak pomeni uspešno objavo.
+
+4. Potek se sproži ob vsaki spremembi na veji main ali master.
+
+5. Če želiš ročno preveriti, v Actions izberi workflow in Run workflow.
