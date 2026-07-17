@@ -1,0 +1,20 @@
+MojaTrgovina – DG Cloud Sync
+
+V aplikacijo je dodano:
+- prijava z Google računom,
+- samodejna sinhronizacija podatkov prek Cloud Firestore,
+- enkratni prenos obstoječih lokalnih podatkov,
+- delo brez povezave in kasnejša sinhronizacija,
+- izvoz in uvoz JSON varnostne kopije,
+- varna Firestore pravila za ločevanje uporabnikov.
+
+PRED OBJAVO V FIREBASE CONSOLE:
+1. Authentication > Sign-in method > Google > Enable.
+2. Firestore Database > Create database > Production mode.
+3. Firestore > Rules: pravila so že v firestore.rules in se objavijo z ukazom spodaj.
+
+OBJAVA:
+firebase deploy --only hosting,firestore:rules
+
+Po objavi odpri aplikacijo, pritisni gumb oblaka zgoraj desno in se prijavi.
+Na prvi napravi, kjer že imaš podatke, se prijavi najprej; ti podatki bodo postali začetna oblačna kopija.

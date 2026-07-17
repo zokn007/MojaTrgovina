@@ -1,0 +1,38 @@
+SAMODEJNE POSODOBITVE – MojaTrgovina 1.8
+========================================
+
+KAJ JE ŽE PRIPRAVLJENO
+- .github/workflows/firebase-hosting.yml: samodejna objava ob vsakem pushu na vejo main
+- version.json: številka trenutno objavljene različice
+- update-manager.js: aplikacija preveri novo različico ob odprtju, vrnitvi v aplikacijo in vsakih 30 minut
+- sw.js: PWA predpomnilnik z varnim prevzemom nove različice
+
+ENKRATNA NASTAVITEV GITHUBA
+1. Na GitHubu odpri repozitorij aplikacije.
+2. Odpri Settings > Secrets and variables > Actions.
+3. Klikni New repository secret.
+4. Ime skrivnosti mora biti natančno:
+   FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA_35FD1
+5. V Firebase Console odpri Project settings > Service accounts.
+6. Klikni Generate new private key in prenesi JSON.
+7. Celotno vsebino JSON datoteke kopiraj kot vrednost GitHub skrivnosti.
+8. V repozitorij naloži vse datoteke tega paketa in jih potisni na vejo main.
+
+VSAKA NASLEDNJA POSODOBITEV
+1. Spremeni datoteke aplikacije.
+2. Povečaj številko v version.json in data-app-version v index.html.
+3. Povečaj oznako CACHE_VERSION v sw.js.
+4. Commit in push na vejo main.
+5. GitHub Actions sam objavi aplikacijo na Firebase.
+
+PREVERJANJE OBJAVE
+GitHub > Actions > Objavi MojaTrgovina v Firebase
+Zelena kljukica pomeni uspešno objavo.
+
+VRNITEV NA PREJŠNJO RAZLIČICO
+GitHub > Commits > odpri zadnji delujoči commit > Revert.
+Po potrditvi se ponovno sproži samodejna objava.
+
+POMEMBNO
+Firestore podatki niso del Hosting objave in se pri posodobitvi ne izbrišejo.
+Firebase servisnega JSON ključa nikoli ne dodajaj med datoteke repozitorija.
