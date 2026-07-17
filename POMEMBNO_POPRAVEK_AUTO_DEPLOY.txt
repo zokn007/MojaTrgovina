@@ -1,0 +1,14 @@
+POPRAVEK SAMODEJNE OBJAVE
+
+1. V GitHub repozitoriju mora biti skrivnost z NATANČNIM imenom:
+   FIREBASE_SERVICE_ACCOUNT
+
+2. Vrednost skrivnosti mora biti celotna vsebina servisne JSON datoteke iz PRAVEGA Firebase projekta.
+
+3. Vsebino te mape naloži neposredno v koren repozitorija.
+
+4. Po nalaganju odpri GitHub > Actions > Firebase production deploy.
+   Zelen uspeh pomeni, da sta bila objavljena Hosting in Firestore rules.
+
+5. Na iPhonu aplikacijo popolnoma zapri in jo ponovno odpri. Če ostane stara verzija,
+   izbriši ikono z začetnega zaslona, odpri web.app naslov v Safariju in jo znova dodaj.
