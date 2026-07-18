@@ -1,0 +1,39 @@
+name: Firebase production deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prenos kode
+        uses: actions/checkout@v4
+
+      - name: Namestitev Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Ustvari Firebase service account
+        shell: bash
+        run: |
+          printf '%s' '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > "${RUNNER_TEMP}/firebase-service-account.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${RUNNER_TEMP}/firebase-service-account.json" >> "$GITHUB_ENV"
+
+      - name: Preveri Firebase projekt
+        run: |
+          node -e "const x=require(process.env.GOOGLE_APPLICATION_CREDENTIALS); console.log('Firebase projekt:', x.project_id)"
+
+      - name: Namestitev Firebase CLI
+        run: npm install --global firebase-tools
+
+      - name: Objavi Hosting in Firestore pravila
+        run: firebase deploy --only hosting,firestore:rules --project "$(node -p "require(process.env.GOOGLE_APPLICATION_CREDENTIALS).project_id")" --non-interactive
