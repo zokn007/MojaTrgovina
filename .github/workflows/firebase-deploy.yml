@@ -1,3 +1,32 @@
+name: Firebase production deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Validate project files
         shell: bash
         run: |
@@ -20,3 +49,32 @@
             echo "NAPAKA: manjka firestore.rules"
             exit 1
           }
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Install Firebase CLI
+        run: npm install --global firebase-tools@latest
+
+      - name: Verify authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${GOOGLE_APPLICATION_CREDENTIALS:-}"
+          test -f "$GOOGLE_APPLICATION_CREDENTIALS"
+          firebase projects:list --non-interactive
+          echo "Firebase authentication works."
+
+      - name: Deploy Hosting and Firestore rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          firebase deploy \
+            --only hosting,firestore:rules \
+            --project mojatrgovina-35fd1 \
+            --non-interactive
