@@ -1,0 +1,25 @@
+MOJATR GOVINA 1.12.1 – POPRAVEK FIREBASE DEPLOY
+
+Kaj je popravljeno:
+- GitHub Actions zdaj sprejme navaden JSON, JSON v narekovajih ali Base64-kodiran service-account JSON.
+- Samodejno popravi zapise \\n v private_key.
+- Pred objavo preveri veljavnost zasebnega ključa.
+- Preveri, ali service account pripada istemu projektu kot .firebaserc.
+- Uporabi namenski secret FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA, če obstaja; sicer uporabi FIREBASE_SERVICE_ACCOUNT.
+- Napake so zdaj jasne in povedo, kaj je dejansko narobe.
+
+POMEMBNO:
+Če GitHub še vedno javi napako pri prijavi, je ključ v secretu preklican, izbrisan ali nima pravic. V Firebase/Google Cloud ustvari NOV service-account ključ JSON in v GitHubu zamenjaj secret.
+
+Priporočeno ime secreta:
+FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA
+
+Service account mora pripadati projektu:
+mojatrgovina-35fd1
+
+Potrebne pravice:
+- Firebase Hosting Admin
+- Cloud Datastore User (za Firestore rules)
+- Service Account User
+
+Starega in novega ključa ne združuj. Secret mora vsebovati samo celotno vsebino enega JSON ključa.
