@@ -1,0 +1,19 @@
+MOJATR GOVINA 1.12 – NOVOSTI
+
+- Google prijava in Firebase sinhronizacija sta ohranjeni ter razširjeni na novi podatkovni ključ.
+- Dodani uradni logotipi Lidl, Hofer, Spar, Mercator, dm in Tuš na domači strani, seznamih in katalogu.
+- Dodan uvoz cen iz CSV ali JSON datotek.
+- Dodane bližnjice do uradnih spletnih trgovin in katalogov.
+- Dodana primerjava podobnih artiklov med trgovinami.
+- Dodan pametni pomočnik z oceno možnega prihranka.
+- Uvoz fotografije računa zdaj omogoča izbiro trgovine.
+- Različica aplikacije in PWA predpomnilnik posodobljena na 1.12.
+
+OBLIKA CSV
+artikel;trgovina;kategorija;cena;vir
+Trajno mleko 1 l;Spar;Mlečni izdelki;1,19;online.spar.si
+
+OBLIKA JSON
+[
+  {"artikel":"Trajno mleko 1 l","trgovina":"Spar","kategorija":"Mlečni izdelki","cena":1.19,"vir":"online.spar.si"}
+]
