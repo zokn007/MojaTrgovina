@@ -1,0 +1,9 @@
+MojaTrgovina 1.13.0
+
+Popravljeno:
+- aplikacija se ne ustavi več na splash zaslonu,
+- popravljena JavaScript sintaktična napaka v grafih,
+- dodan neodvisen varnostni izhod iz splash zaslona,
+- Google prijava in Firebase sinhronizacija ostajata vključeni,
+- logotipi trgovin ostajajo vključeni,
+- posodobljena različica in PWA predpomnilnik.
