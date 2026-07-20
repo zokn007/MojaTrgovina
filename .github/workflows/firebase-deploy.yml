@@ -2,9 +2,7 @@ name: Firebase production deploy
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -31,28 +29,51 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          for file in index.html firebase.json firestore.rules; do
+            if [[ ! -f "$file" ]]; then
+              echo "::error::Missing required file: $file"
+              exit 1
+            fi
+          done
 
-          echo "Datoteke v glavni mapi:"
-          ls -la
+      - name: Validate Firebase service account secret
+        shell: bash
+        env:
+          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA }}
+        run: |
+          set -euo pipefail
 
-          test -f index.html || {
-            echo "NAPAKA: manjka index.html"
+          if [[ -z "${FIREBASE_CREDENTIALS:-}" ]]; then
+            echo "::error::GitHub secret FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA is missing or empty."
+            echo "::error::Create it under Settings > Secrets and variables > Actions > New repository secret."
             exit 1
-          }
+          fi
 
-          test -f firebase.json || {
-            echo "NAPAKA: manjka firebase.json"
-            exit 1
-          }
-
-          test -f firestore.rules || {
-            echo "NAPAKA: manjka firestore.rules"
-            exit 1
-          }
+          node -e '
+            const raw = process.env.FIREBASE_CREDENTIALS;
+            let data;
+            try {
+              data = JSON.parse(raw);
+            } catch {
+              console.error("::error::The secret is not valid JSON. Paste the complete service-account JSON from the first { to the final }.");
+              process.exit(1);
+            }
+            const required = ["type", "project_id", "private_key", "client_email"];
+            const missing = required.filter((key) => !data[key]);
+            if (missing.length) {
+              console.error(`::error::The service-account JSON is missing: ${missing.join(", ")}`);
+              process.exit(1);
+            }
+            if (data.project_id !== "mojatrgovina-35fd1") {
+              console.error(`::error::Wrong Firebase project in secret: ${data.project_id}. Expected mojatrgovina-35fd1.`);
+              process.exit(1);
+            }
+            console.log(`Service account found for project: ${data.project_id}`);
+          '
 
       - name: Authenticate to Google Cloud
         id: auth
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA }}
           create_credentials_file: true
@@ -67,7 +88,7 @@ jobs:
           set -euo pipefail
           test -n "${GOOGLE_APPLICATION_CREDENTIALS:-}"
           test -f "$GOOGLE_APPLICATION_CREDENTIALS"
-          firebase projects:list --non-interactive
+          firebase projects:list --non-interactive >/dev/null
           echo "Firebase authentication works."
 
       - name: Deploy Hosting and Firestore rules
