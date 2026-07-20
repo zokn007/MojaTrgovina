@@ -2,38 +2,72 @@ name: Firebase production deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: firebase-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prenos kode
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Namestitev Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '22'
 
-      - name: Ustvari Firebase service account
+      - name: Validate project files
         shell: bash
         run: |
-          printf '%s' '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > "${RUNNER_TEMP}/firebase-service-account.json"
-          echo "GOOGLE_APPLICATION_CREDENTIALS=${RUNNER_TEMP}/firebase-service-account.json" >> "$GITHUB_ENV"
+          set -euo pipefail
+          test -f index.html
+          test -f firebase.json
+          test -f .firebaserc
+          test -f firestore.rules
 
-      - name: Preveri Firebase projekt
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Read Firebase project ID
+        shell: bash
         run: |
-          node -e "const x=require(process.env.GOOGLE_APPLICATION_CREDENTIALS); console.log('Firebase projekt:', x.project_id)"
+          set -euo pipefail
+          PROJECT_ID=$(node -e "const fs=require('fs'); const x=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(x.projects.default)")
+          test -n "$PROJECT_ID"
+          echo "FIREBASE_PROJECT_ID=$PROJECT_ID" >> "$GITHUB_ENV"
+          echo "Firebase project: $PROJECT_ID"
 
-      - name: Namestitev Firebase CLI
-        run: npm install --global firebase-tools
+      - name: Install Firebase CLI
+        run: npm install --global firebase-tools@latest
 
-      - name: Objavi Hosting in Firestore pravila
-        run: firebase deploy --only hosting,firestore:rules --project "$(node -p "require(process.env.GOOGLE_APPLICATION_CREDENTIALS).project_id")" --non-interactive
+      - name: Verify authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${GOOGLE_APPLICATION_CREDENTIALS:-}"
+          test -f "$GOOGLE_APPLICATION_CREDENTIALS"
+          firebase projects:list --non-interactive >/dev/null
+          echo "Firebase authentication works."
+
+      - name: Deploy Hosting and Firestore rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          firebase deploy \
+            --only hosting,firestore:rules \
+            --project "$FIREBASE_PROJECT_ID" \
+            --non-interactive
