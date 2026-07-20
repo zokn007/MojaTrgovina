@@ -1,0 +1,20 @@
+MOJATRgovina 1.12.2 – popravek GitHub Actions prijave
+
+Napaka »Failed to authenticate, have you run firebase login?« pomeni, da GitHub še vedno izvaja star workflow ali da prijava ni bila pravilno ustvarjena.
+
+Ta verzija uporablja uradno dejanje google-github-actions/auth@v2.
+
+OBVEZNI KORAKI V GITHUBU:
+1. Odpri repozitorij MojaTrgovina.
+2. Odpri .github/workflows/firebase-deploy.yml.
+3. Izbriši celotno staro vsebino.
+4. Kopiraj vsebino datoteke firebase-deploy.yml iz korena tega paketa.
+5. Shrani s Commit changes.
+6. V Settings > Secrets and variables > Actions mora obstajati secret:
+   FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA
+7. Vrednost secreta mora biti celoten JSON enega service-account ključa, od prve { do zadnje }.
+8. Ne uporabljaj Base64 in ne združuj starega ter novega ključa.
+9. Actions > Firebase production deploy > Run workflow.
+
+POMEMBNO:
+Mapa .github je v macOS Finderju skrita. Če v GitHub povlečeš samo vidne datoteke, se workflow ne zamenja. Zato workflow popravi neposredno na GitHubu po zgornjih korakih.

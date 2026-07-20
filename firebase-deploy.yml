@@ -1,0 +1,73 @@
+name: Firebase production deploy
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f firebase.json
+          test -f .firebaserc
+          test -f firestore.rules
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOJATRGOVINA }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Read Firebase project ID
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_ID=$(node -e "const fs=require('fs'); const x=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(x.projects.default)")
+          test -n "$PROJECT_ID"
+          echo "FIREBASE_PROJECT_ID=$PROJECT_ID" >> "$GITHUB_ENV"
+          echo "Firebase project: $PROJECT_ID"
+
+      - name: Install Firebase CLI
+        run: npm install --global firebase-tools@latest
+
+      - name: Verify authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${GOOGLE_APPLICATION_CREDENTIALS:-}"
+          test -f "$GOOGLE_APPLICATION_CREDENTIALS"
+          firebase projects:list --non-interactive >/dev/null
+          echo "Firebase authentication works."
+
+      - name: Deploy Hosting and Firestore rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          firebase deploy \
+            --only hosting,firestore:rules \
+            --project "$FIREBASE_PROJECT_ID" \
+            --non-interactive
