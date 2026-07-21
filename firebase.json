@@ -10,6 +10,20 @@
     ],
     "rewrites": [
       {
+        "source": "/api/prices",
+        "function": {
+          "functionId": "getPrices",
+          "region": "europe-west1"
+        }
+      },
+      {
+        "source": "/api/prices/refresh",
+        "function": {
+          "functionId": "refreshPrices",
+          "region": "europe-west1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
@@ -55,5 +69,8 @@
   },
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "functions": {
+    "source": "functions"
   }
 }

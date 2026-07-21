@@ -1,0 +1,22 @@
+MOJATRGOVINA 1.16 – FIREBASE STREŽNIŠKI ZBIRALNIK CEN
+
+1. V Firebase Console odpri projekt mojatrgovina-35fd1.
+2. Projekt nadgradi na Blaze in nastavi omejitev/obvestilo porabe.
+3. V terminalu v korenu projekta izvedi:
+   npm install -g firebase-tools
+   firebase login
+   cd functions
+   npm install
+   cd ..
+   firebase deploy --only firestore:rules,functions,hosting
+
+Kaj se objavi:
+- scheduledPriceCollector: vsak dan ob 03:15 po času Europe/Ljubljana
+- refreshPrices: ročni zagon iz aplikacije; zahteva prijavo z Googlom
+- getPrices: varen javni prenos nazadnje zbranih cen
+- Firestore zbirki publicPrices in priceCollector
+
+POMEMBNO
+Zbiralnik zapisuje samo cene, ki jih lahko dejansko razbere iz javno dostopnih uradnih strani. Trgovine lahko kadarkoli spremenijo HTML ali zaščito strani. Takrat se v priceCollector/status zapiše napaka in zbiralnik ne vstavi izmišljene cene.
+
+Za popolno bazo vseh artiklov je treba poleg spletnih akcij vključiti še podatke iz računov/EAN kod ali uradni podatkovni vir trgovca. Ta verzija že pripravi podatkovni model, zgodovino cen in aplikacijski uvoz.

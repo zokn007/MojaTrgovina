@@ -4,5 +4,11 @@ service cloud.firestore {
     match /users/{userId}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
+    match /publicPrices/{priceId} {
+      allow read: if true;
+      allow write: if false;
+      match /history/{historyId} { allow read: if true; allow write: if false; }
+    }
+    match /priceCollector/{document=**} { allow read: if true; allow write: if false; }
   }
 }

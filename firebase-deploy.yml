@@ -33,6 +33,12 @@ jobs:
           test -f firebase.json
           test -f .firebaserc
           test -f firestore.rules
+          test -f functions/package.json
+          test -f functions/src/index.js
+
+      - name: Install function dependencies
+        working-directory: functions
+        run: npm ci || npm install
 
       - name: Authenticate to Google Cloud
         id: auth
@@ -68,6 +74,6 @@ jobs:
         run: |
           set -euo pipefail
           firebase deploy \
-            --only hosting,firestore:rules \
+            --only hosting,firestore:rules,functions \
             --project "$FIREBASE_PROJECT_ID" \
             --non-interactive

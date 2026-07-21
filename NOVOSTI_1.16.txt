@@ -1,0 +1,8 @@
+MojaTrgovina 1.16.0
+- Firebase Cloud Functions strežniški zbiralnik cen
+- samodejno zbiranje vsak dan ob 03:15
+- ročna osvežitev za prijavljenega uporabnika
+- javni API za prenos zbranih cen
+- zgodovina cen po artiklu
+- cena na kilogram/liter, kadar je količina razpoznavna
+- brez izmišljenih testnih cen; napake virov se zabeležijo

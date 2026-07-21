@@ -1,0 +1,6 @@
+MojaTrgovina 1.15.0
+- popravljeni uradni povezavi SPAR in Lidl ter posodobljena povezava HOFER
+- po spletnem uvozu so ravnokar uvoženi artikli samodejno prikazani na vrhu
+- dodane možnosti: Nazadnje uvoženi, Samo artikli s ceno, Samo artikli brez cene
+- dodan števec prikazanih in vseh artiklov v katalogu
+- popravljena preširoka obroba kartic na mobilnih zaslonih
