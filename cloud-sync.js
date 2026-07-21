@@ -116,7 +116,7 @@
       #dg-sync-bar[data-state="offline"]{background:#a45300}
       #dg-sync-bar[data-state="error"]{background:#a61b1b}
       #dg-sync-bar[data-state="signedout"]{background:#4b5563}
-      #dg-cloud-button{position:fixed;right:12px;top:12px;z-index:2147483646;width:38px;height:38px;border:0;border-radius:50%;background:#fff;color:#111;font-size:18px;box-shadow:0 4px 16px #0003;cursor:pointer}
+      #dg-cloud-button{position:static;width:100%;height:auto;padding:12px 14px;border:1px solid #30445f;border-radius:12px;background:#20334c;color:#fff;font-size:14px;font-weight:800;box-shadow:none;cursor:pointer;text-align:left}
       #dg-cloud-button[data-online="false"]{filter:grayscale(1);opacity:.72}
     `;
     document.head.appendChild(style);
@@ -132,9 +132,10 @@
     button.type = 'button';
     button.title = 'Cloud Sync in uporabniški račun';
     button.setAttribute('aria-label', 'Cloud Sync in uporabniški račun');
-    button.textContent = '☁️';
+    button.textContent = '☁️ Google sinhronizacija';
     button.onclick = openPanel;
-    document.body.appendChild(button);
+    const profileHost = document.getElementById('cloudSyncProfile');
+    (profileHost || document.body).appendChild(button);
 
     const panel = document.createElement('div');
     panel.id = 'dg-cloud-panel';

@@ -1,0 +1,102 @@
+{
+  "source": "uradne spletne ponudbe trgovin – testni primerjalni nabor",
+  "updatedAt": "2026-07-21",
+  "products": [
+    {
+      "artikel": "Trajno mleko 3,5 % 1 l",
+      "trgovina": "Lidl",
+      "kategorija": "Mlečni izdelki",
+      "cena": 0.99,
+      "emoji": "🥛",
+      "vir": "lidl.si"
+    },
+    {
+      "artikel": "Trajno mleko 3,5 % 1 l",
+      "trgovina": "Hofer",
+      "kategorija": "Mlečni izdelki",
+      "cena": 0.89,
+      "emoji": "🥛",
+      "vir": "hofer.si"
+    },
+    {
+      "artikel": "Trajno mleko 3,5 % 1 l",
+      "trgovina": "Spar",
+      "kategorija": "Mlečni izdelki",
+      "cena": 1.19,
+      "emoji": "🥛",
+      "vir": "spar.si"
+    },
+    {
+      "artikel": "Mascarpone 500 g",
+      "trgovina": "Lidl",
+      "kategorija": "Mlečni izdelki",
+      "cena": 2.94,
+      "emoji": "🧀",
+      "vir": "lidl.si"
+    },
+    {
+      "artikel": "Mascarpone 500 g",
+      "trgovina": "Hofer",
+      "kategorija": "Mlečni izdelki",
+      "cena": 2.82,
+      "emoji": "🧀",
+      "vir": "hofer.si"
+    },
+    {
+      "artikel": "Mascarpone 500 g",
+      "trgovina": "Spar",
+      "kategorija": "Mlečni izdelki",
+      "cena": 3.49,
+      "emoji": "🧀",
+      "vir": "spar.si"
+    },
+    {
+      "artikel": "Toaletni papir 10 rol",
+      "trgovina": "Lidl",
+      "kategorija": "Gospodinjstvo",
+      "cena": 3.49,
+      "emoji": "🧻",
+      "vir": "lidl.si"
+    },
+    {
+      "artikel": "Toaletni papir 10 rol",
+      "trgovina": "Hofer",
+      "kategorija": "Gospodinjstvo",
+      "cena": 3.29,
+      "emoji": "🧻",
+      "vir": "hofer.si"
+    },
+    {
+      "artikel": "Toaletni papir 10 rol",
+      "trgovina": "Spar",
+      "kategorija": "Gospodinjstvo",
+      "cena": 3.99,
+      "emoji": "🧻",
+      "vir": "spar.si"
+    },
+    {
+      "artikel": "Banane 1 kg",
+      "trgovina": "Lidl",
+      "kategorija": "Sadje",
+      "cena": 1.29,
+      "emoji": "🍌",
+      "vir": "lidl.si"
+    },
+    {
+      "artikel": "Banane 1 kg",
+      "trgovina": "Hofer",
+      "kategorija": "Sadje",
+      "cena": 1.19,
+      "emoji": "🍌",
+      "vir": "hofer.si"
+    },
+    {
+      "artikel": "Banane 1 kg",
+      "trgovina": "Spar",
+      "kategorija": "Sadje",
+      "cena": 1.39,
+      "emoji": "🍌",
+      "vir": "spar.si"
+    }
+  ]
+}
